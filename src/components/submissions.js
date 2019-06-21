@@ -5,6 +5,7 @@ import { createListing } from '../core/hocs'
 import { makeStyles } from '@material-ui/core/styles';
 
 import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -33,41 +34,52 @@ const useStyles = makeStyles(theme => ({
 
 
 function getSubmissions() {
-    return axios.get('https://api.myjson.com/bins/jpfmg').then((data) => data.data);
+    return axios.get('https://api.myjson.com/bins/jpfmg').then((data) => data.data);//[...data.data, ...data.data, ...data.data]);
 }
 
 const listingProps = {
     ParentComponent: Component,
     fetch: getSubmissions,
-    initialState: { ...createListing.INITIAL_STATE },
+    initialState: { ...createListing.INITIAL_STATE, sorting: { timestamp: false } },
 };
 
 const Listing = createListing(listingProps);
-
 export class Submissions extends Listing {
 
     constructor(props) {
         super(props);
+        this.state = Object.assign(this.state, { selectedSubmission: null });
     }
+
+
+    onSelectionChange(selectedSubmission) {
+        console.log('onSelectionChange', arguments);
+        this.setState({ selectedSubmission });
+    }
+
 
     render() {
         const { items, isLoading } = this.state;
-        const { onSelect } = this.props;
-
+        console.log('Submissions.render', this.state);
         return (
             <Fragment>
                 {isLoading && <div> Loading .... </div>}
-                <List>
-                    {items.map((value, index) => <Row key={value.id} value={value} isLast={index === (items.length - 1)} onClick={() => onSelect(value)} />)}
-                </List>
+                <div style={{ overflowY: 'scroll', overflowX: 'hidden' }}>
+                    <List>
+                        {items.map((value, index) => <Row key={value.id} value={value} isLast={index === (items.length - 1)} onClick={this.onSelectionChange.bind(this, value)} />)}
+                    </List>
+                </div>
+
+
             </Fragment>
         );
     }
 }
 
-const Primary = ({ value }) => {
+
+export const SubmissionTitle = ({ value }) => {
     return (
-        <Typography style={{ display: 'inline' }} component="span" variant="body2" color="textPrimary">
+        <Typography style={{ display: 'inline', textTransform: 'capitalize' }} component="span" variant="body2" color="textPrimary">
             {(!value.landobservations || !value.landobservations.length)
                 ? ''
                 : <Fragment>
@@ -76,6 +88,16 @@ const Primary = ({ value }) => {
         </Typography>
     );
 }
+
+
+export const SubmissionSubTitle = ({ value }) => {
+    return (
+        <Fragment>
+            {moment(value.timestamp).format('LLLL')}
+        </Fragment>
+    );
+}
+
 
 const Row = ({ value, onClick, children, isLast }) => {
     return (
@@ -86,7 +108,7 @@ const Row = ({ value, onClick, children, isLast }) => {
                         <ImageIcon />
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={Primary({ value })} secondary={moment(value.timestamp).format('LLLL')} />
+                <ListItemText primary={SubmissionTitle({ value })} secondary={SubmissionSubTitle({ value })} />
             </ListItem>
             {!isLast && <Divider />}
         </Fragment>

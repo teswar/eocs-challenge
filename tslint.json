@@ -2,7 +2,7 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "no-console": false,
-    "no-debugger": false,
+    "no-debugger": "off",
     "object-literal-sort-keys": false,
     "no-unused-expressions": false,
     "allowShortCircuit": true,
@@ -11,7 +11,7 @@
   },
   "jsRules": {
     "no-console": false,
-    "no-debugger": false,
+    "no-debugger": "off",
     "object-literal-sort-keys": false,
     "no-unused-expressions": false,
     "allowShortCircuit": true,

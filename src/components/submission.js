@@ -12,7 +12,16 @@ import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
-import { Observations, Photos } from '.';
+
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+
+
+import { Evaluate, SubmissionTitle, SubmissionSubTitle, Observations, Photos } from '.';
 
 function TabContainer(props) {
     return (
@@ -34,26 +43,55 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+
 export const Submission = ({ value }) => {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = React.useState(0);
+    const [showEvaluateModal, setShowEvaluateModal] = React.useState(false);
 
     function handleChange(event, newValue) {
         setSelectedTab(newValue);
     }
 
+    function onEvaluationSuccess() {
+        console.log('onEvaluationSuccess: success....');
+        setShowEvaluateModal(false);
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="static" color="default">
-                <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="on" indicatorColor="primary" textColor="primary" >
+
+                <Card className={classes.card}>
+                    <CardActionArea>
+                        <CardMedia component="img" alt="Contemplative Reptile" height="140" image={value.photos[0].url} title="Contemplative Reptile" />
+                        <CardContent>
+                            <SubmissionTitle gutterBottom variant="h5" component="h2" value={value} />
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                <SubmissionSubTitle value={value} />
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                        <Button size="small" color="primary" onClick={() => setShowEvaluateModal(true)} > Evaluate  </Button>
+                        {showEvaluateModal && <Evaluate open={showEvaluateModal} onClose={onEvaluationSuccess} />}
+                    </CardActions>
+                </Card>
+
+
+                <Tabs value={selectedTab} onChange={handleChange} variant="scrollable" scrollButtons="on" indicatorColor="primary" textColor="primary" >
                     <Tab label="Observations" icon={<PhoneIcon />} />
                     <Tab label="Photos" icon={<FavoriteIcon />} />
                     <Tab label="Platform" icon={<PersonPinIcon />} />
                 </Tabs>
             </AppBar>
-            {selectedTab === 0 && <Observations values={value.landobservations}/>}
-            {selectedTab === 1 && <Photos values={value.photos}/>}
-            {selectedTab === 2 && <TabContainer>Platform....</TabContainer>}
+            <div style={{ overflowY: 'scroll', overflowX: 'hidden' }}>
+                {selectedTab === 0 && <Observations values={value.landobservations} />}
+                {selectedTab === 1 && <Photos values={value.photos} />}
+                {selectedTab === 2 && <TabContainer>Platform....</TabContainer>}
+            </div>
+
+
         </div>
     );
 }

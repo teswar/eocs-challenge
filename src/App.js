@@ -6,7 +6,7 @@ import logo from './logo.svg';
 import { AxiosConfig } from './configs'
 // import { Dashboard, DashboardPage } from './pages'
 import Dashboard from './pages/dashboard/Dashboard'
-import { PermanentDrawerLeft } from './pages/board'
+import { PermanentDrawerLeft, Board } from './pages/board'
 
 class App extends React.Component {
 
@@ -18,7 +18,8 @@ class App extends React.Component {
   render() {
     return (
       // <Dashboard />
-      <PermanentDrawerLeft />
+      // <PermanentDrawerLeft />
+      <Board/>
       // <div className="App">
       //   <header className="App-header">
       //     <img src={logo} className="App-logo" alt="logo" />
