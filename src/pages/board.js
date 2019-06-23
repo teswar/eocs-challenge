@@ -9,9 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { Submissions, Submission, GMap } from '../components';
 
 
-const drawerWidth = '70%';
-const drawerHeaderWidth = 340;
-
+const drawerWidth = '60%';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -38,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export class BoardT extends Submissions {
+class BoardComponent extends Submissions {
   constructor(props) {
     super(props);
   }
@@ -46,9 +44,7 @@ export class BoardT extends Submissions {
   render() {
     const { items, selectedSubmission } = this.state;
     const { classes } = this.props;
-
-    console.log(items, selectedSubmission);
-
+    
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -73,9 +69,5 @@ export class BoardT extends Submissions {
   }
 }
 
-export const Board = (props) => {
-  const classes = useStyles();
-
-  return (<BoardT classes={classes} />);
-};
+export const Board = (props) => (<BoardComponent classes={useStyles()} />);
 
