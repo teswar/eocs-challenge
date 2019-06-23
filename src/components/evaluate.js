@@ -59,7 +59,7 @@ export const Evaluate = ({ open, onClose }) => {
 
     return (
         <div>
-            <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+            <Dialog open={open} onClose={() => onClose(false)} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Evaluate</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Please leave feedback in the comments section, it will help user to understand of your opinion.</DialogContentText>
@@ -71,7 +71,7 @@ export const Evaluate = ({ open, onClose }) => {
                     <TextField name="comment" margin="dense" label="Comments" type="email" fullWidth autoFocus value={comment} onChange={(e) => onChange({ comment: e.target.value })} />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClose} color="primary"> Cancel </Button>
+                    <Button onClick={() => onClose(false)} color="primary"> Cancel </Button>
                     <Button onClick={onSubmit} color="primary"> Send </Button>
                 </DialogActions>
             </Dialog>
