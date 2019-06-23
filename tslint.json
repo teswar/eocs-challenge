@@ -7,7 +7,8 @@
     "no-unused-expressions": false,
     "allowShortCircuit": true,
     "allowTernary": true,
-    "allowTaggedTemplates": true
+    "allowTaggedTemplates": true,
+    "no-cond-assign" : false
   },
   "jsRules": {
     "no-console": false,
@@ -16,7 +17,8 @@
     "no-unused-expressions": false,
     "allowShortCircuit": true,
     "allowTernary": true,
-    "allowTaggedTemplates": true
+    "allowTaggedTemplates": true,
+    "no-cond-assign" : false
   },
   "linterOptions": {
     "exclude": [

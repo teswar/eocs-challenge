@@ -14,7 +14,6 @@ export function extendWithSorting({ ParentComponent, initialState }) {
         }
 
         composeOnSortState(items, sorting, nState) {
-            console.log(this.state, arguments);
             return Object.assign(nState || {}, { items: sortBy([...items], sorting, moment.locale(), getAccumilatedSortOrder) });
         }
 
@@ -24,7 +23,7 @@ export function extendWithSorting({ ParentComponent, initialState }) {
             return this.composeOnSortState(items, sorting, nState);
         }
 
-        
+
         fetch(nQuery) {
             const { sorting } = this.state;
             return super.fetch({ sorting, ...nQuery });

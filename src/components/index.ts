@@ -1,6 +1,6 @@
 export * from './submissions';
 export * from './submission';
-export * from './observations';
+export * from './submission-infos';
 export * from './photos';
 export * from './map';
 export * from './evaluate';

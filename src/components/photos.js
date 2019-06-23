@@ -15,8 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
   gridList: {
     width: 'auto',
-    height: 'auto' ,
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    height: 'auto',
     transform: 'translateZ(0)',
   },
   gridListTitle: {
@@ -35,14 +34,8 @@ const useStyles = makeStyles(theme => ({
 
 
 export const Photo = ({ value, classes }) => {
-  const ratio = (value.direction === 'ground') ? 2 : 1;
-  console.log(ratio);
-
   return (
     <GridListTile className={classes.gridListTitle}>
-      {/* <div style={{background: 'red', width: '100%', position: 'relative', paddingTop: '100%'  }}>
-        <img style={{width: '100%', position: 'absolute', top: '0'  }} src={value.url} alt={value.direction} />
-      </div> */}
       <img src={value.url} alt={value.direction} />
       <GridListTileBar className={classes.titleBar} title={value.direction} titlePosition="top" />
     </GridListTile>
@@ -56,7 +49,7 @@ export const Photos = ({ values }) => {
   return (
     <div className={classes.root}>
       <GridList cellHeight={200} spacing={1} className={classes.gridList}>
-        {values.map((value, index) => <Photo key={index} value={value} classes={classes}/>)}
+        {values.map((value, index) => <Photo key={index} value={value} classes={classes} />)}
       </GridList>
     </div>
   );

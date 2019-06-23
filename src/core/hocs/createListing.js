@@ -1,7 +1,7 @@
-import { extendWithListing, extendWithSorting , extendWithLoading } from '.';
+import { extendWithListing, extendWithSorting, extendWithLoading } from '.';
 
 export function createListing({ ParentComponent, initialState, fetch }) {
-    console.log(arguments);
+
     ParentComponent = extendWithListing({ ParentComponent, initialState, fetch });
     ParentComponent = extendWithSorting({ ParentComponent });
     ParentComponent = extendWithLoading({ ParentComponent });
@@ -15,9 +15,9 @@ export function createListing({ ParentComponent, initialState, fetch }) {
 }
 
 
-createListing.INITIAL_STATE = Object.freeze({ 
-    ...extendWithLoading.INITIAL_STATE, 
-    ...extendWithSorting.INITIAL_STATE, 
+createListing.INITIAL_STATE = Object.freeze({
+    ...extendWithLoading.INITIAL_STATE,
+    ...extendWithSorting.INITIAL_STATE,
     ...extendWithListing.INITIAL_STATE
 });
 

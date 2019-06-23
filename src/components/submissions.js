@@ -1,36 +1,21 @@
 import React, { Fragment, Component } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 import { createListing } from '../core/hocs'
-import { makeStyles } from '@material-ui/core/styles';
 
 import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import moment from 'moment';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-    inline: {
-        display: 'inline',
-    },
-}));
+import ArrowUpward from '@material-ui/icons/ArrowUpward';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
 
 
 function getSubmissions() {
@@ -42,8 +27,8 @@ const listingProps = {
     fetch: getSubmissions,
     initialState: { ...createListing.INITIAL_STATE, sorting: { timestamp: false } },
 };
-
 const Listing = createListing(listingProps);
+
 export class Submissions extends Listing {
 
     constructor(props) {
@@ -51,26 +36,39 @@ export class Submissions extends Listing {
         this.state = Object.assign(this.state, { selectedSubmission: null });
     }
 
-
     onSelectionChange(selectedSubmission) {
-        console.log('onSelectionChange', arguments);
         this.setState({ selectedSubmission });
     }
 
-
     render() {
-        const { items, isLoading } = this.state;
-        console.log('Submissions.render', this.state);
+        const { items, sorting, isLoading } = this.state;
+        const { classes } = this.props;
+        const { timestamp } = sorting;
+
         return (
             <Fragment>
-                {isLoading && <div> Loading .... </div>}
-                <div style={{ overflowY: 'scroll', overflowX: 'hidden' }}>
-                    <List>
-                        {items.map((value, index) => <Row key={value.id} value={value} isLast={index === (items.length - 1)} onClick={this.onSelectionChange.bind(this, value)} />)}
-                    </List>
+                <div className={classes.toolbar} >
+                    <Toolbar>
+
+                        <Fragment>
+                            <IconButton className={classes.button} style={{ padding: "0 16px" }} aria-label="Delete" onClick={this.onSortingChange.bind(this, { timestamp: !timestamp })} >
+                                {!timestamp ? <ArrowDownward /> : <ArrowUpward />}
+                            </IconButton>
+                            <Typography variant="h6" noWrap> Submisions </Typography>
+                        </Fragment>
+                    </Toolbar>
                 </div>
 
+                <Divider />
 
+                <div>
+                    {isLoading && <div> Loading .... </div>}
+                    <div style={{ overflowY: 'scroll', overflowX: 'hidden' }}>
+                        <List>
+                            {items.map((value, index) => <Row key={value.id} value={value} isLast={index === (items.length - 1)} onClick={() => this.onSelectionChange(value)} />)}
+                        </List>
+                    </div>
+                </div>
             </Fragment>
         );
     }
@@ -91,15 +89,11 @@ export const SubmissionTitle = ({ value }) => {
 
 
 export const SubmissionSubTitle = ({ value }) => {
-    return (
-        <Fragment>
-            {moment(value.timestamp).format('LLLL')}
-        </Fragment>
-    );
+    return (<Fragment>{moment(value.timestamp).format('LLLL')}</Fragment>);
 }
 
 
-const Row = ({ value, onClick, children, isLast }) => {
+const Row = ({ value, onClick, isLast }) => {
     return (
         <Fragment>
             <ListItem alignItems="flex-start" onClick={onClick}>
