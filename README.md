@@ -6,7 +6,7 @@ The below tasks are still on progress, need to try finishing up before deadline:
 
 * `notification`.
 * `error-labels`.
-* `image gallery`.
+* `image gallery with lazy load`.
 * `set default map-type to satellite`.
 
 ## Demo(s)
