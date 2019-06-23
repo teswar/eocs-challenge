@@ -1,5 +1,25 @@
 {
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "rules": {
+    "no-console": false,
+    "no-debugger": "off",
+    "object-literal-sort-keys": false,
+    "no-unused-expressions": false,
+    "allowShortCircuit": true,
+    "allowTernary": true,
+    "allowTaggedTemplates": true,
+    "no-cond-assign" : false
+  },
+  "jsRules": {
+    "no-console": false,
+    "no-debugger": "off",
+    "object-literal-sort-keys": false,
+    "no-unused-expressions": false,
+    "allowShortCircuit": true,
+    "allowTernary": true,
+    "allowTaggedTemplates": true,
+    "no-cond-assign" : false
+  },
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
