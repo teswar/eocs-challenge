@@ -51,8 +51,8 @@ export const Submission = ({ value, onClose }) => {
     const listiingClasses = useListingStyles();
     const [showEvaluateModal, setShowEvaluateModal] = React.useState(false);
 
-    function onEvaluationSuccess() {
-        console.log('onEvaluationSuccess: success....');
+    function closeEvaluationModal(submissionSucess) {
+        if (submissionSucess) { alert("Evaluation was successfully submitted !!"); }
         setShowEvaluateModal(false);
     }
 
@@ -84,7 +84,7 @@ export const Submission = ({ value, onClose }) => {
 
                                 <CardActions>
                                     <Button size="small" color="primary" style={{ flexDirection: 'column' }} onClick={() => setShowEvaluateModal(true)}>Evaluate</Button>
-                                    {showEvaluateModal && <Evaluate open={showEvaluateModal} onClose={onEvaluationSuccess} />}
+                                    {showEvaluateModal && <Evaluate open={showEvaluateModal} onClose={closeEvaluationModal} />}
                                 </CardActions>
 
                                 <Divider />

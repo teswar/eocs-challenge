@@ -49,9 +49,12 @@ export const Evaluate = ({ open, onClose }) => {
                 var errs = validate(formData);
                 setErrors(errs);
                 const postData = { ...formData, evaluation: Evaluation[formData.evaluation], }
-                return isUndefinedNullOrEmpty(errs) ? postEvaluation(postData) : Promise.reject();
+                return isUndefinedNullOrEmpty(errs)
+                    ? postEvaluation(postData).catch(() => Promise.reject(alert("Evaluation submission failed ...!!")))
+                    : Promise.reject(alert("Error, fill in required fields ...!!"));
             })
             .then(() => onClose(true));
+
     }
 
     return (

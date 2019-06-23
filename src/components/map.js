@@ -14,7 +14,7 @@ export class ExtendedMap extends Component {
 
   render() {
     const { submissions, submission, google } = this.props;
-    var mapProps = { google, style, zoom: 8, mapTypeId: 'satellite', initialCenter: { lat: 9.4873703, lng: 73.5735097 }, bounds: new google.maps.LatLngBounds() };
+    var mapProps = { google, style, zoom: 8, mapTypeId: google.maps.MapTypeId.SATELLITE, initialCenter: { lat: 9.4873703, lng: 73.5735097 }, bounds: new google.maps.LatLngBounds() };
     var point = null;
 
     const markers = ((!submission) ? submissions : [submission]).reduce((result, m) => {
