@@ -4,6 +4,8 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
+import { toTitleCase } from '../core/utils';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     transform: 'translateZ(0)',
   },
   gridListTitle: {
-    maxHeight: '150px',
     width: '100%'
   },
   titleBar: {
@@ -35,22 +36,66 @@ const useStyles = makeStyles(theme => ({
 
 export const Photo = ({ value, classes }) => {
   return (
-    <GridListTile className={classes.gridListTitle}>
+    <div className={classes.gridListTitle}>
       <img src={value.url} alt={value.direction} />
-      <GridListTileBar className={classes.titleBar} title={value.direction} titlePosition="top" />
-    </GridListTile>
+      <div className={classes.titleBar} title={value.direction} />
+    </div>
   );
 }
 
 
 export const Photos = ({ values }) => {
   const classes = useStyles();
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={200} spacing={1} className={classes.gridList}>
-        {values.map((value, index) => <Photo key={index} value={value} classes={classes} />)}
+      <Photo value={values[selectedIndex]} classes={classes} />
+      <ThumbnailsSlider values={values} selectedIndex={selectedIndex} onSelect={setSelectedIndex} />
+    </div>
+  );
+}
+
+
+const thumbnailsSliderStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    transform: 'translateZ(0)',
+  },
+  title: {
+    color: theme.palette.primary.light,
+  },
+  titleBar: {
+    background:
+      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+  },
+}));
+
+export const ThumbnailsSlider = ({ values, selectedIndex, onSelect }) => {
+  const classes = thumbnailsSliderStyles();
+
+  return (
+    <div className={classes.root}>
+      <GridList className={classes.gridList} cols={2.5}>
+        {
+          values.map((value, index) => (
+            <GridListTile key={value.direction} onClick={() => onSelect(index)}>
+              <img src={value.url} alt={value.direction} />
+              <GridListTileBar title={toTitleCase(value.direction)} classes={{ root: classes.titleBar }} />
+            </GridListTile>
+          ))
+        }
       </GridList>
     </div>
   );
 }
+
+
+

@@ -13,6 +13,7 @@ import Divider from '@material-ui/core/Divider';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
+import { useSnackbar } from 'notistack';
 
 import { Evaluate, SubmissionTitle, SubmissionSubTitle, Observations, PlatformInfos, Photos } from '.';
 
@@ -29,7 +30,6 @@ const useStyles = makeStyles(theme => ({
 const useListingStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
         position: 'relative',
         overflow: 'auto',
@@ -47,65 +47,66 @@ const useListingStyles = makeStyles(theme => ({
 
 
 export const Submission = ({ value, onClose }) => {
+    const { enqueueSnackbar } = useSnackbar();
+    const notify = (message) => enqueueSnackbar(message, { variant: 'success', key: 'submission' });
     const classes = useStyles();
     const listiingClasses = useListingStyles();
+
     const [showEvaluateModal, setShowEvaluateModal] = React.useState(false);
 
     function closeEvaluationModal(submissionSucess) {
-        if (submissionSucess) { alert("Evaluation was successfully submitted !!"); }
+        if (submissionSucess) { notify("Evaluation was successfully submitted..."); }
         setShowEvaluateModal(false);
     }
 
     return (
         <Fragment>
             <Toolbar>
-                <IconButton className={classes.button} style={{ padding: "0 16px" }} aria-label="Delete" onClick={onClose}>
+                <IconButton className={classes.icon} onClick={onClose}>
                     <ArrowBack />
                 </IconButton>
-                <Typography variant="h6" noWrap> Submision </Typography>
+                <Typography variant="h6" noWrap> Submmision </Typography>
             </Toolbar>
 
             <Divider />
 
-            <div>
-                <Grid container spacing={3} style={{ padding: '5px' }} >
-                    <Grid item style={{ maxWidth: '320px', flexShrink: 0 }}>
-                        <div className={classes.root}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                    <CardMedia component="img" alt="Contemplative Reptile" height="140" image={value.photos[0].url} title="Contemplative Reptile" />
-                                    <CardContent>
-                                        <SubmissionTitle gutterBottom variant="h5" component="h2" value={value} />
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            <SubmissionSubTitle value={value} />
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-
-                                <CardActions>
-                                    <Button size="small" color="primary" style={{ flexDirection: 'column' }} onClick={() => setShowEvaluateModal(true)}>Evaluate</Button>
-                                    {showEvaluateModal && <Evaluate open={showEvaluateModal} onClose={closeEvaluationModal} />}
-                                </CardActions>
-
-                                <Divider />
-
+            <Grid container spacing={3} style={{ padding: '5px', height: 'calc(100vh - 64px)' }} >
+                <Grid item style={{ maxWidth: '320px', flexShrink: 0 }}>
+                    <div className={classes.root}>
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia component="img" alt="Contemplative Reptile" height="140" image={value.photos[0].url} title="Contemplative Reptile" />
                                 <CardContent>
-                                    <List className={listiingClasses.root} subheader={<li />}>
-                                        <li className={listiingClasses.listSection}>
-                                            <Observations className={listiingClasses.ul} values={value.landobservations} />
-                                            <PlatformInfos className={listiingClasses.ul} values={value.platform} />
-                                        </li>
-                                    </List>
+                                    <SubmissionTitle gutterBottom variant="h5" component="h2" value={value} />
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        <SubmissionSubTitle value={value} />
+                                    </Typography>
                                 </CardContent>
-                            </Card>
-                        </div>
-                    </Grid>
+                            </CardActionArea>
 
-                    <Grid item style={{ width: 'auto', flexGrow: 1, maxWidth: 'calc(100% - 320px)' }} >
-                        <Photos values={value.photos} />
-                    </Grid>
+                            <CardActions>
+                                <Button size="small" color="primary" style={{ flexDirection: 'column' }} onClick={() => setShowEvaluateModal(true)}>Evaluate</Button>
+                                {showEvaluateModal && <Evaluate submission={value} open={showEvaluateModal} onClose={closeEvaluationModal} />}
+                            </CardActions>
+
+                            <Divider />
+
+                            <CardContent style={{ padding: '0px' }}>
+                                <List className={listiingClasses.root} subheader={<li />}>
+                                    <li className={listiingClasses.listSection}>
+                                        <Observations className={listiingClasses.ul} values={value.landobservations} />
+                                        <PlatformInfos className={listiingClasses.ul} values={value.platform} />
+                                    </li>
+                                </List>
+                            </CardContent>
+                        </Card>
+                    </div>
                 </Grid>
-            </div>
+
+                <Grid item style={{ width: 'auto', flexGrow: 1, maxWidth: 'calc(100% - 320px)' }} >
+                    <Photos values={value.photos} />
+                </Grid>
+            </Grid>
         </Fragment>
     );
 }

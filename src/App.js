@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './App.css';
-import logo from './logo.svg';
 import { AxiosConfig } from './configs'
 import { Board } from './pages/board'
+import { SnackbarProvider } from 'notistack';
 
 class App extends React.Component {
 
@@ -12,7 +12,10 @@ class App extends React.Component {
   }
 
   render() {
-    return (<Board />);
+    return (
+      <SnackbarProvider maxSnack={1} autoHideDuration={2000} preventDuplicate={true} anchorOrigin={{ horizontal: 'center', vertical: 'top' }} >
+        <Board />
+      </SnackbarProvider>);
   }
 }
 
