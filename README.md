@@ -11,4 +11,5 @@ The below tasks are still on progress, need to try finishing up before deadline:
 
 ## Demo(s)
 
-[See demo](https://teswar.github.io/eocs-challenge/).
+* Challenge Demo (https://teswar.github.io/eocs-challenge/) | Branch - [demo-fixes](https://github.com/teswar/eocs-challenge/tree/demo-fixes)
+* Latest Demo (https://teswar.github.io/eocs-challenge/v2/) | Branch - [master](https://github.com/teswar/eocs-challenge)
