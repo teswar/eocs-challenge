@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
 
 import { Submissions, Submission, GMap } from '../components';
 
@@ -33,6 +34,28 @@ const useStyles = makeStyles(theme => ({
     height: `calc(100vh - 64px)`,
     boxSizing: 'border-box'
   },
+  '@keyframes spin': {
+    '0%': {
+      transform: 'rotate(0deg)'
+    },
+    '100%': {
+      transform: 'rotate(180deg)'
+    }
+  },
+
+  icon: {
+    margin: theme.spacing(2),
+    transform: 'rotate(360deg)',
+    transition: '300ms transform'
+  },
+  iconHover: {
+    '&:hover': {
+      color: red[800],
+      animation: 'spin 300ms',
+      transform: 'rotate(180deg)'
+    },
+  }
+
 }));
 
 
@@ -44,7 +67,7 @@ class BoardComponent extends Submissions {
   render() {
     const { items, selectedSubmission } = this.state;
     const { classes } = this.props;
-    
+
     return (
       <div className={classes.root}>
         <CssBaseline />

@@ -4,3 +4,4 @@ export * from './submission-infos';
 export * from './photos';
 export * from './map';
 export * from './evaluate';
+export * from './discard-changes';

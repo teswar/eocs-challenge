@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { createListing } from '../core/hocs'
 
@@ -16,6 +17,41 @@ import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
+    appBar: {
+        width: `calc(100% - ${drawerWidth})`,
+        marginLeft: drawerWidth,
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    toolbar: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing(3),
+        height: `calc(100vh - 64px)`,
+        boxSizing: 'border-box'
+    },
+    icon: {
+        margin: theme.spacing(2),
+    },
+    iconHover: {
+        '&:hover': {
+            color: red[800],
+        },
+    }
+
+}));
+
 
 
 function getSubmissions() {
@@ -48,14 +84,15 @@ export class Submissions extends Listing {
         return (
             <Fragment>
                 <div className={classes.toolbar} >
-                    <Toolbar>
+                    <Toolbar style={{ display: 'flex' }} >
+                        <Typography style={{ flexGrow: '1' }} variant="h6" noWrap> Submisions </Typography>
 
-                        <Fragment>
-                            <IconButton className={classes.button} style={{ padding: "0 16px" }} aria-label="Delete" onClick={this.onSortingChange.bind(this, { timestamp: !timestamp })} >
+                        <div>
+                            <Typography style={{ textTransform: 'uppercase' }} variant="overline" noWrap> sorted by timestamp in {timestamp ? 'as' : 'des'}cending</Typography>
+                            <IconButton className={classes.iconHover} onClick={this.onSortingChange.bind(this, { timestamp: !timestamp })} >
                                 {!timestamp ? <ArrowDownward /> : <ArrowUpward />}
                             </IconButton>
-                            <Typography variant="h6" noWrap> Submisions </Typography>
-                        </Fragment>
+                        </div>
                     </Toolbar>
                 </div>
 
